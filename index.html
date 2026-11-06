@@ -1,717 +1,677 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080808">
-<meta name="description" content="Prins Tools - Premium PDF and Image Utilities">
-<title>Prins Tools — All Tools. One Place.</title>
+<meta name="theme-color" content="#090909">
+<title>Prins Tools — PDF & Image Tools</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg: #080808;
-  --panel: #111111;
-  --panel2: #171717;
-  --red: #ff303d;
-  --red2: #bd1426;
-  --text: #f8f8f8;
-  --muted: #888;
-  --border: rgba(255,255,255,.09);
+  --bg:#090909;
+  --panel:#141414;
+  --red:#ff303b;
+  --text:#f7f7f7;
+  --muted:#999;
+  --border:#292929;
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+* {box-sizing:border-box;margin:0;padding:0}
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+}
+button,input,select {font:inherit}
+button {cursor:pointer}
+.container {width:min(1120px,92%);margin:auto}
+
+header {
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+  background:rgba(9,9,9,.95);
+  backdrop-filter:blur(15px);
+}
+.nav {
+  height:76px;display:flex;
+  align-items:center;justify-content:space-between;
+}
+.logo {font-size:23px;font-weight:900;letter-spacing:-1px}
+.logo span {color:var(--red)}
+.nav-tag {
+  color:#ff777e;border:1px solid #632329;
+  background:#241013;padding:8px 12px;
+  border-radius:30px;font-size:11px;font-weight:700;
 }
 
-button, input {
-  font: inherit;
+.hero {padding:75px 0 48px;text-align:center}
+.eyebrow {
+  color:#ff6971;font-size:12px;font-weight:800;
+  letter-spacing:2px;margin-bottom:20px;
 }
-
-button {
-  cursor: pointer;
+h1 {
+  font-size:clamp(38px,7vw,70px);
+  line-height:1.06;letter-spacing:-3px;
+  font-weight:900;
 }
-
-/* Background */
-
-body::before {
-  content: "";
-  position: fixed;
-  width: 450px;
-  height: 450px;
-  background: var(--red);
-  opacity: .08;
-  filter: blur(150px);
-  top: -200px;
-  left: 35%;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Navbar */
-
-.navbar {
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 7%;
-  border-bottom: 1px solid var(--border);
-  background: rgba(8,8,8,.85);
-  backdrop-filter: blur(20px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  font-size: 23px;
-  font-weight: 900;
-  letter-spacing: -1.2px;
-}
-
-.logo span {
-  color: var(--red);
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-.nav-right a {
-  text-decoration: none;
-  color: #aaa;
-  font-size: 13px;
-}
-
-.nav-right a:hover {
-  color: white;
-}
-
-.nav-btn {
-  padding: 11px 18px;
-  border-radius: 9px;
-  color: white;
-  background: var(--red);
-  border: none;
-  font-weight: 700;
-  font-size: 12px;
-  box-shadow: 0 5px 25px rgba(255,48,61,.2);
-}
-
-/* Hero */
-
-.hero {
-  text-align: center;
-  max-width: 850px;
-  margin: auto;
-  padding: 95px 20px 55px;
-}
-
-.tag {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  color: #ff6b74;
-  background: rgba(255,48,61,.09);
-  border: 1px solid rgba(255,48,61,.23);
-  padding: 9px 16px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.dot {
-  width: 7px;
-  height: 7px;
-  background: var(--red);
-  border-radius: 50%;
-  box-shadow: 0 0 12px var(--red);
-}
-
-.hero h1 {
-  font-size: clamp(43px,8vw,78px);
-  font-weight: 900;
-  letter-spacing: -4px;
-  line-height: 1.06;
-  margin: 28px 0 20px;
-}
-
-.hero h1 span {
-  color: var(--red);
-  text-shadow: 0 0 35px rgba(255,48,61,.25);
-}
-
+h1 span {color:var(--red)}
 .hero p {
-  max-width: 550px;
-  margin: auto;
-  color: #999;
-  font-size: 15px;
-  line-height: 1.8;
+  color:var(--muted);max-width:560px;
+  margin:20px auto 28px;line-height:1.7;font-size:14px;
 }
-
-/* Search */
-
-.search-wrap {
-  max-width: 570px;
-  margin: 32px auto 0;
-  position: relative;
-}
-
+.search-wrap {max-width:570px;margin:auto;position:relative}
 .search-wrap input {
-  width: 100%;
-  height: 58px;
-  background: #141414;
-  border: 1px solid #333;
-  border-radius: 13px;
-  padding: 0 55px 0 20px;
-  color: white;
-  outline: none;
-  font-size: 14px;
-  transition: .3s;
+  width:100%;padding:17px 20px 17px 48px;
+  border:1px solid #333;border-radius:14px;
+  background:#141414;color:white;outline:none;
 }
-
-.search-wrap input:focus {
-  border-color: var(--red);
-  box-shadow: 0 0 25px rgba(255,48,61,.12);
-}
-
-.search-icon {
-  position: absolute;
-  right: 20px;
-  top: 17px;
-  color: var(--red);
-  font-size: 20px;
-}
-
-/* Stats */
-
+.search-wrap input:focus {border-color:var(--red)}
+.search-icon {position:absolute;left:17px;top:15px;color:#999}
 .stats {
-  display: flex;
-  justify-content: center;
-  gap: 45px;
-  margin-top: 43px;
+  display:flex;justify-content:center;
+  gap:45px;margin-top:35px;flex-wrap:wrap;
 }
+.stat strong {display:block;font-size:22px}
+.stat small {color:var(--muted);font-size:11px}
 
-.stat strong {
-  display: block;
-  font-size: 22px;
-  font-weight: 800;
+.section {padding:35px 0 75px}
+.section-head {margin-bottom:23px}
+.section-head h2 {font-size:24px}
+.section-head p {color:var(--muted);font-size:12px;margin-top:7px}
+.filters {display:flex;gap:9px;flex-wrap:wrap;margin-bottom:25px}
+.filter {
+  border:1px solid var(--border);background:#141414;
+  color:#aaa;padding:10px 15px;border-radius:30px;
+  font-size:12px;font-weight:700;
 }
-
-.stat small {
-  color: #777;
-  font-size: 11px;
+.filter.active,.filter:hover {
+  background:var(--red);border-color:var(--red);color:white;
 }
-
-/* Main section */
-
-.container {
-  max-width: 1100px;
-  padding: 20px;
-  margin: auto;
+.tools-grid {
+  display:grid;grid-template-columns:repeat(4,1fr);gap:15px;
 }
-
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 23px;
-}
-
-.section-head h2 {
-  font-size: 23px;
-  letter-spacing: -.8px;
-}
-
-.section-head p {
-  color: #777;
-  font-size: 12px;
-  margin-top: 7px;
-}
-
-/* Categories */
-
-.categories {
-  display: flex;
-  gap: 9px;
-  overflow-x: auto;
-  padding-bottom: 22px;
-  scrollbar-width: none;
-}
-
-.categories::-webkit-scrollbar {
-  display: none;
-}
-
-.category {
-  background: #141414;
-  border: 1px solid #292929;
-  color: #999;
-  padding: 10px 17px;
-  border-radius: 30px;
-  white-space: nowrap;
-  font-size: 12px;
-  transition: .25s;
-}
-
-.category:hover,
-.category.active {
-  background: rgba(255,48,61,.12);
-  border-color: var(--red);
-  color: white;
-}
-
-/* Cards */
-
-.tools {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 15px;
-}
-
 .tool {
-  position: relative;
-  min-height: 190px;
-  padding: 21px;
-  background: linear-gradient(145deg,#171717,#101010);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  overflow: hidden;
-  transition: .3s ease;
-  cursor: pointer;
+  background:linear-gradient(145deg,#171717,#101010);
+  border:1px solid var(--border);
+  padding:22px;border-radius:17px;
+  min-height:190px;position:relative;
+  transition:.25s;cursor:pointer;
 }
-
-.tool::after {
-  content: "";
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  background: var(--red);
-  filter: blur(75px);
-  opacity: 0;
-  right: -40px;
-  bottom: -40px;
-  transition: .3s;
-}
-
 .tool:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255,48,61,.6);
-  box-shadow: 0 15px 40px rgba(0,0,0,.35);
+  transform:translateY(-5px);
+  border-color:#a52a32;
+  box-shadow:0 12px 35px #0008;
 }
-
-.tool:hover::after {
-  opacity: .28;
-}
-
 .tool-icon {
-  width: 49px;
-  height: 49px;
-  display: grid;
-  place-items: center;
-  background: rgba(255,48,61,.11);
-  border: 1px solid rgba(255,48,61,.2);
-  border-radius: 13px;
-  font-size: 23px;
-  margin-bottom: 20px;
+  width:48px;height:48px;display:grid;
+  place-items:center;background:#2a1114;
+  border:1px solid #542126;border-radius:13px;
+  font-size:23px;margin-bottom:23px;
 }
-
-.tool h3 {
-  font-size: 14px;
-  margin-bottom: 9px;
-  font-weight: 700;
+.tool h3 {font-size:15px;margin-bottom:9px}
+.tool p {font-size:11px;color:var(--muted);line-height:1.6}
+.tool-arrow {position:absolute;right:19px;top:19px;color:#777}
+.coming {
+  position:absolute;bottom:17px;right:17px;
+  color:#ff858b;font-size:9px;font-weight:800;
 }
-
-.tool p {
-  color: #888;
-  font-size: 11px;
-  line-height: 1.7;
-}
-
-.tool-arrow {
-  position: absolute;
-  right: 19px;
-  top: 22px;
-  color: #666;
-  font-size: 17px;
-}
-
-.tool:hover .tool-arrow {
-  color: var(--red);
-}
-
-/* CTA */
-
 .banner {
-  margin: 70px 0 35px;
-  padding: 36px;
-  border-radius: 20px;
-  background: linear-gradient(110deg,#261012,#171010,#111);
-  border: 1px solid rgba(255,48,61,.22);
-  text-align: center;
+  margin:0 0 70px;padding:35px;
+  border:1px solid #632329;border-radius:20px;
+  background:radial-gradient(ellipse at right,#4c1419,#160d0e 65%);
 }
-
-.banner h2 {
-  font-size: 25px;
-  margin-bottom: 12px;
-}
-
-.banner p {
-  color: #999;
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-/* Footer */
-
+.banner h2 {font-size:25px;margin-bottom:10px}
+.banner p {color:#c0a4a5;font-size:13px;line-height:1.7}
 footer {
-  border-top: 1px solid var(--border);
-  padding: 30px 20px;
-  text-align: center;
-  color: #777;
-  font-size: 12px;
-  line-height: 2;
+  border-top:1px solid var(--border);
+  padding:28px 0;color:#777;font-size:11px;
+  text-align:center;line-height:2;
 }
 
-footer span {
-  color: var(--red);
-  font-weight: 800;
+.modal-bg {
+  display:none;position:fixed;inset:0;z-index:30;
+  background:#000c;align-items:center;justify-content:center;
+  padding:18px;
 }
-
-/* Toast */
-
-.toast {
-  position: fixed;
-  bottom: 25px;
-  left: 50%;
-  transform: translate(-50%,20px);
-  background: #242424;
-  border: 1px solid #444;
-  padding: 14px 20px;
-  border-radius: 12px;
-  font-size: 13px;
-  opacity: 0;
-  pointer-events: none;
-  transition: .3s;
-  z-index: 200;
+.modal-bg.show {display:flex}
+.modal {
+  width:min(440px,100%);background:#151515;
+  border:1px solid #393939;border-radius:20px;
+  padding:25px;max-height:90vh;overflow:auto;
 }
-
-.toast.show {
-  opacity: 1;
-  transform: translate(-50%,0);
+.modal h2 {font-size:21px;margin-bottom:9px}
+.modal p {font-size:12px;color:#aaa;line-height:1.7;margin-bottom:15px}
+.close {
+  float:right;background:#292929;color:white;
+  border:0;border-radius:8px;padding:7px 11px;
 }
-
-.empty {
-  display: none;
-  text-align: center;
-  color: #888;
-  padding: 35px;
-  grid-column: 1/-1;
+.file-input {
+  width:100%;padding:14px;background:#202020;
+  border:1px dashed #666;border-radius:12px;
+  color:#ddd;margin:10px 0 17px;font-size:12px;
 }
-
-/* Mobile */
-
+.action {
+  width:100%;padding:14px;border:0;
+  background:var(--red);color:white;
+  font-weight:800;border-radius:11px;
+}
+.action:disabled {opacity:.5;cursor:not-allowed}
+.secondary {
+  width:100%;padding:12px;margin-top:10px;
+  background:#292929;color:white;border:0;border-radius:10px;
+}
+.info {
+  font-size:11px;color:#aaa;margin:5px 0 15px;
+  line-height:1.6;
+}
+#toast {
+  position:fixed;bottom:25px;left:50%;
+  transform:translateX(-50%);
+  background:#f5f5f5;color:#111;
+  padding:13px 20px;border-radius:30px;
+  font-size:12px;font-weight:700;
+  display:none;z-index:50;max-width:90%;
+  text-align:center;
+}
 @media(max-width:850px) {
-  .tools {
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .navbar {
-    padding: 0 20px;
-  }
-
-  .nav-right a {
-    display: none;
-  }
-
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero h1 {
-    letter-spacing: -2.5px;
-  }
+  .tools-grid {grid-template-columns:repeat(2,1fr)}
 }
-
-@media(max-width:420px) {
-  .tools {
-    gap: 10px;
-  }
-
-  .tool {
-    padding: 16px;
-    min-height: 180px;
-  }
-
-  .stats {
-    gap: 25px;
-  }
-
-  .stat strong {
-    font-size: 19px;
-  }
-
-  .banner {
-    padding: 25px 15px;
-  }
-}
-
-/* Entrance animation */
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero, .container {
-  animation: appear .8s ease both;
-}
-
-.tool {
-  animation: appear .6s ease both;
+@media(max-width:480px) {
+  .hero {padding-top:55px}
+  h1 {letter-spacing:-2px}
+  .stats {gap:25px}
+  .tool {padding:17px;min-height:180px}
+  .banner {padding:25px}
 }
 </style>
 </head>
 
 <body>
 
-<header class="navbar">
-  <div class="logo">PRINS<span>TOOLS.</span></div>
-
-  <nav class="nav-right">
-    <a href="#home">Home</a>
-    <a href="#tools">All Tools</a>
-    <a href="#about">About</a>
-    <button class="nav-btn" onclick="showToast('Welcome to Prins Tools!')">
-      EXPLORE TOOLS ↗
-    </button>
-  </nav>
+<header>
+  <div class="container nav">
+    <div class="logo">PRINS<span>.</span>TOOLS</div>
+    <div class="nav-tag">ALL IN ONE TOOLS</div>
+  </div>
 </header>
 
 <main>
 
-<section class="hero" id="home">
-
-  <div class="tag">
-    <span class="dot"></span>
-    YOUR DIGITAL WORKSPACE
-  </div>
-
-  <h1>
-    All Tools.<br>
-    <span>One Powerful Place.</span>
-  </h1>
-
-  <p>
-    Everything you need to manage PDF files and images.
-    Simple tools, a clean experience and a smarter workflow.
-  </p>
+<section class="container hero">
+  <div class="eyebrow">✦ YOUR DIGITAL TOOLBOX</div>
+  <h1>One Place.<br><span>Every Tool.</span></h1>
+  <p>Convert, compress and manage your PDF and images with simple, powerful tools.</p>
 
   <div class="search-wrap">
-    <input
-      type="search"
-      id="search"
-      placeholder="Search PDF, image tools..."
-    >
     <span class="search-icon">⌕</span>
+    <input id="search" type="search" placeholder="Search your favourite tools...">
   </div>
 
   <div class="stats">
-    <div class="stat">
-      <strong>08+</strong>
-      <small>UTILITY TOOLS</small>
-    </div>
-    <div class="stat">
-      <strong>FREE</strong>
-      <small>TO GET STARTED</small>
-    </div>
-    <div class="stat">
-      <strong>24/7</strong>
-      <small>ACCESS</small>
-    </div>
+    <div class="stat"><strong>08+</strong><small>TOOLS</small></div>
+    <div class="stat"><strong>FREE</strong><small>TO USE</small></div>
+    <div class="stat"><strong>FAST</strong><small>PROCESSING</small></div>
   </div>
-
 </section>
 
-<section class="container" id="tools">
-
+<section class="container section">
   <div class="section-head">
-    <div>
-      <h2>Explore Tools <span style="color:#ff303d">✦</span></h2>
-      <p>Choose the right tool for your task.</p>
-    </div>
+    <h2>Explore Tools</h2>
+    <p>Choose a tool and get your work done.</p>
   </div>
 
-  <div class="categories">
-    <button class="category active" data-filter="all">All Tools</button>
-    <button class="category" data-filter="pdf">PDF Tools</button>
-    <button class="category" data-filter="image">Image Tools</button>
-    <button class="category" data-filter="other">Other Tools</button>
+  <div class="filters">
+    <button class="filter active" data-filter="all">All Tools</button>
+    <button class="filter" data-filter="pdf">PDF Tools</button>
+    <button class="filter" data-filter="image">Image Tools</button>
   </div>
 
-  <div class="tools" id="toolGrid">
+  <div class="tools-grid">
 
-    <div class="tool" data-category="pdf">
+    <div class="tool" data-category="pdf" data-search="photo image convert pdf">
       <span class="tool-arrow">↗</span>
       <div class="tool-icon">📸</div>
       <h3>Photo to PDF</h3>
-      <p>Convert your images into high-quality PDF documents.</p>
+      <p>Convert multiple photos into one PDF document.</p>
     </div>
 
-    <div class="tool" data-category="image">
+    <div class="tool" data-category="image" data-search="image compressor compress photo size">
       <span class="tool-arrow">↗</span>
       <div class="tool-icon">🗜️</div>
       <h3>Image Compressor</h3>
-      <p>Reduce image size while keeping good quality.</p>
+      <p>Reduce image file size and download your image.</p>
     </div>
 
-    <div class="tool" data-category="pdf">
+    <div class="tool" data-category="pdf" data-search="pdf merger combine join">
       <span class="tool-arrow">↗</span>
       <div class="tool-icon">📑</div>
       <h3>PDF Merger</h3>
-      <p>Combine multiple PDF documents into one file.</p>
+      <p>Combine multiple PDF files into one document.</p>
+      <span class="coming">COMING SOON</span>
     </div>
 
-    <div class="tool" data-category="pdf">
+    <div class="tool" data-category="pdf" data-search="pdf splitter split pages">
       <span class="tool-arrow">↗</span>
       <div class="tool-icon">✂️</div>
       <h3>PDF Splitter</h3>
-      <p>Separate pages from your PDF documents.</p>
+      <p>Separate PDF documents into smaller files.</p>
+      <span class="coming">COMING SOON</span>
     </div>
 
-    <div class="tool" data-category="image">
+    <div class="tool" data-category="image" data-search="image resizer resize photo">
+      <span class="tool-arrow">↗</span>
+      <div class="tool-icon">📐</div>
+      <h3>Image Resizer</h3>
+      <p>Change image dimensions easily.</p>
+      <span class="coming">COMING SOON</span>
+    </div>
+
+    <div class="tool" data-category="pdf" data-search="pdf to images convert">
       <span class="tool-arrow">↗</span>
       <div class="tool-icon">🖼️</div>
-      <h3>Image Resizer</h3>
-      <p>Resize images to your preferred dimensions.</p>
-    </div>
-
-    <div class="tool" data-category="pdf">
-      <span class="tool-arrow">↗</span>
-      <div class="tool-icon">📄</div>
       <h3>PDF to Images</h3>
       <p>Convert PDF pages into image files.</p>
+      <span class="coming">COMING SOON</span>
     </div>
 
-    <div class="tool" data-category="image">
+    <div class="tool" data-category="image" data-search="image converter jpg png webp">
       <span class="tool-arrow">↗</span>
       <div class="tool-icon">🔄</div>
       <h3>Image Converter</h3>
-      <p>Convert JPG, PNG and other image formats.</p>
+      <p>Convert images into different formats.</p>
+      <span class="coming">COMING SOON</span>
     </div>
 
-    <div class="tool" data-category="other">
+    <div class="tool" data-category="image" data-search="document scanner scan">
       <span class="tool-arrow">↗</span>
-      <div class="tool-icon">📷</div>
+      <div class="tool-icon">📄</div>
       <h3>Document Scanner</h3>
-      <p>Capture and organize document images.</p>
-    </div>
-
-    <div class="empty" id="empty">
-      No matching tools found.
+      <p>Prepare document scans from your images.</p>
+      <span class="coming">COMING SOON</span>
     </div>
 
   </div>
+</section>
 
-  <div class="banner" id="about">
-    <h2>Make Your Work <span style="color:#ff303d">Simpler.</span></h2>
-    <p>
-      One workspace. Multiple possibilities.<br>
-      Welcome to the Prins Tools experience.
-    </p>
+<section class="container">
+  <div class="banner">
+    <h2>Made for simplicity. Built for speed.</h2>
+    <p>Prins Tools brings useful PDF and image utilities together in one clean workspace.</p>
   </div>
-
 </section>
 
 </main>
 
 <footer>
-  Made with ❤️ by <span>PRINS</span><br>
-  © 2026 Prins Tools. All rights reserved.
+  <div class="container">
+    <div class="logo">PRINS<span>.</span>TOOLS</div>
+    <p>Simple tools. Smart results.</p>
+    <p>© 2026 Prins Tools. All rights reserved.</p>
+  </div>
 </footer>
 
-<div class="toast" id="toast"></div>
+<!-- PHOTO TO PDF MODAL -->
+<div class="modal-bg" id="pdfModal">
+  <div class="modal">
+    <button class="close" onclick="closeModal('pdfModal')">✕</button>
+    <h2>📸 Photo to PDF</h2>
+    <p>Select multiple JPG, PNG or other browser-supported photos. Each photo will get its own A4 page.</p>
+    <input class="file-input" type="file" id="photoInput" accept="image/*" multiple>
+    <div class="info">Maximum 20 photos per PDF. Very large images are resized to help your phone.</div>
+    <button class="action" id="makePdf">Create PDF</button>
+    <button class="secondary" onclick="closeModal('pdfModal')">Cancel</button>
+  </div>
+</div>
+
+<!-- IMAGE COMPRESSOR MODAL -->
+<div class="modal-bg" id="compressModal">
+  <div class="modal">
+    <button class="close" onclick="closeModal('compressModal')">✕</button>
+    <h2>🗜️ Image Compressor</h2>
+    <p>Select an image and choose its output quality. The tool compares the new file with your original.</p>
+    <input class="file-input" type="file" id="compressInput" accept="image/*">
+
+    <label style="font-size:12px;color:#ccc">Image quality</label>
+    <select id="quality" style="width:100%;padding:12px;margin:10px 0 18px;background:#222;color:white;border:1px solid #444;border-radius:9px">
+      <option value="0.85">High quality</option>
+      <option value="0.65" selected>Balanced</option>
+      <option value="0.4">Smaller file</option>
+    </select>
+
+    <button class="action" id="compressBtn">Compress & Download</button>
+    <button class="secondary" onclick="closeModal('compressModal')">Cancel</button>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
-const search = document.getElementById("search");
-const cards = [...document.querySelectorAll(".tool")];
-const categories = document.querySelectorAll(".category");
-const empty = document.getElementById("empty");
+"use strict";
 
-let currentFilter = "all";
+const toast = document.getElementById("toast");
+let toastTimer;
 
-function filterTools() {
-  const query = search.value.toLowerCase().trim();
-  let count = 0;
+function showToast(message) {
+  toast.textContent = message;
+  toast.style.display = "block";
+  clearTimeout(toastTimer);
 
-  cards.forEach(card => {
-    const matchesText = card.innerText.toLowerCase().includes(query);
-    const matchesCategory =
-      currentFilter === "all" ||
-      card.dataset.category === currentFilter;
-
-    const visible = matchesText && matchesCategory;
-
-    card.style.display = visible ? "" : "none";
-
-    if (visible) count++;
-  });
-
-  empty.style.display = count ? "none" : "block";
+  toastTimer = setTimeout(() => {
+    toast.style.display = "none";
+  }, 3500);
 }
 
-search.addEventListener("input", filterTools);
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
 
-categories.forEach(button => {
+// Close modal when tapping outside its content
+document.querySelectorAll(".modal-bg").forEach(modal => {
+  modal.addEventListener("click", event => {
+    if (event.target === modal) {
+      modal.classList.remove("show");
+    }
+  });
+});
+
+// SEARCH AND FILTER
+let activeFilter = "all";
+
+function filterTools() {
+  const query = document.getElementById("search").value.toLowerCase();
+
+  document.querySelectorAll(".tool").forEach(tool => {
+    const category = tool.dataset.category;
+    const words = (
+      tool.innerText + " " + (tool.dataset.search || "")
+    ).toLowerCase();
+
+    const categoryMatch =
+      activeFilter === "all" || category === activeFilter;
+
+    const searchMatch = words.includes(query);
+
+    tool.style.display =
+      categoryMatch && searchMatch ? "" : "none";
+  });
+}
+
+document.getElementById("search").addEventListener("input", filterTools);
+
+document.querySelectorAll(".filter").forEach(button => {
   button.addEventListener("click", () => {
-    categories.forEach(item => item.classList.remove("active"));
+    document.querySelectorAll(".filter").forEach(b => {
+      b.classList.remove("active");
+    });
+
     button.classList.add("active");
-    currentFilter = button.dataset.filter;
+    activeFilter = button.dataset.filter;
     filterTools();
   });
 });
 
-let toastTimer;
+// TOOL CARD ACTIONS
+document.querySelectorAll(".tool").forEach(tool => {
+  tool.addEventListener("click", () => {
+    const title = tool.querySelector("h3").innerText;
 
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
+    if (title === "Photo to PDF") {
+      document.getElementById("pdfModal").classList.add("show");
+    } else if (title === "Image Compressor") {
+      document.getElementById("compressModal").classList.add("show");
+    } else {
+      showToast(title + " functionality is coming soon!");
+    }
+  });
+});
 
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2500);
+// LOAD IMAGE SAFELY
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(img);
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("This image format could not be opened."));
+    };
+
+    img.src = url;
+  });
 }
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js">
-    </script>
+
+// RESIZE IMAGE AND EXPORT AS JPEG BLOB
+async function makeJpegBlob(file, maxWidth, maxHeight, quality) {
+  const img = await loadImage(file);
+
+  const scale = Math.min(
+    1,
+    maxWidth / img.width,
+    maxHeight / img.height
+  );
+
+  const canvas = document.createElement("canvas");
+
+  canvas.width = Math.max(1, Math.round(img.width * scale));
+  canvas.height = Math.max(1, Math.round(img.height * scale));
+
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("Image processing is not supported.");
+  }
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  const blob = await new Promise(resolve => {
+    canvas.toBlob(resolve, "image/jpeg", quality);
+  });
+
+  canvas.width = 1;
+  canvas.height = 1;
+
+  if (!blob) {
+    throw new Error("Could not process this image.");
+  }
+
+  return blob;
+}
+
+// BLOB TO DATA URL FOR PDF
+function blobToDataURL(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Could not read processed image."));
+
+    reader.readAsDataURL(blob);
+  });
+}
+
+// DOWNLOAD BLOB
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = filename;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+// PHOTO TO PDF
+document.getElementById("makePdf").addEventListener("click", async () => {
+  const input = document.getElementById("photoInput");
+  const files = Array.from(input.files || []);
+
+  if (!files.length) {
+    showToast("Please select photos first!");
+    return;
+  }
+
+  if (files.length > 20) {
+    showToast("Please select maximum 20 photos.");
+    return;
+  }
+
+  if (!window.jspdf) {
+    showToast("PDF library load nahi hui. Internet check karo.");
+    return;
+  }
+
+  const button = document.getElementById("makePdf");
+
+  button.disabled = true;
+  button.textContent = "Creating PDF...";
+
+  let pdf = null;
+
+  try {
+    const { jsPDF } = window.jspdf;
+
+    pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      compress: true
+    });
+
+    let added = 0;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      if (!file.type.startsWith("image/")) {
+        continue;
+      }
+
+      showToast("Processing photo " + (i + 1) + " of " + files.length);
+
+      const blob = await makeJpegBlob(
+        file,
+        1600,
+        2200,
+        0.88
+      );
+
+      const data = await blobToDataURL(blob);
+
+      const img = await loadImage(blob);
+
+      if (added > 0) {
+        pdf.addPage();
+      }
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 10;
+
+      const ratio = Math.min(
+        (pageWidth - margin * 2) / img.width,
+        (pageHeight - margin * 2) / img.height
+      );
+
+      const width = img.width * ratio;
+      const height = img.height * ratio;
+
+      const x = (pageWidth - width) / 2;
+      const y = (pageHeight - height) / 2;
+
+      pdf.addImage(data, "JPEG", x, y, width, height);
+
+      added++;
+    }
+
+    if (added === 0) {
+      throw new Error("No valid images were selected.");
+    }
+
+    pdf.save("Prins-Tools-Photos.pdf");
+
+    showToast("PDF successfully created!");
+    closeModal("pdfModal");
+    input.value = "";
+
+  } catch (error) {
+    console.error(error);
+    showToast(error.message || "PDF nahi ban payi. Dobara try karo.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Create PDF";
+  }
+});
+
+// IMAGE COMPRESSOR
+document.getElementById("compressBtn").addEventListener("click", async () => {
+  const input = document.getElementById("compressInput");
+  const file = input.files[0];
+
+  if (!file) {
+    showToast("Please select an image first!");
+    return;
+  }
+
+  if (!file.type.startsWith("image/")) {
+    showToast("Please select a valid image.");
+    return;
+  }
+
+  const button = document.getElementById("compressBtn");
+
+  button.disabled = true;
+  button.textContent = "Compressing...";
+
+  try {
+    const quality = Number(document.getElementById("quality").value);
+
+    const compressedBlob = await makeJpegBlob(
+      file,
+      2000,
+      2000,
+      quality
+    );
+
+    if (compressedBlob.size < file.size) {
+      downloadBlob(compressedBlob, "Prins-Tools-Compressed.jpg");
+
+      const saved = Math.round(
+        (1 - compressedBlob.size / file.size) * 100
+      );
+
+      showToast("Image compressed! About " + saved + "% smaller.");
+    } else {
+      downloadBlob(file, file.name);
+
+      showToast("No smaller version found. Original downloaded.");
+    }
+
+    closeModal("compressModal");
+    input.value = "";
+
+  } catch (error) {
+    console.error(error);
+    showToast(error.message || "Image compress nahi hui.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Compress & Download";
+  }
+});
 </script>
 
 </body>
